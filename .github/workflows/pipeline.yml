@@ -13,17 +13,10 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-
-
-      - name: Change wrapper permissions
-        run: chmod +x ./gradlew
-
-
       - name: Create test database
         run: |
           mysql -uroot -proot < databases/tracker/create_databases.sql
-          ./gradlew testMigrate
-
+          sudo chmod +x gradlew && ./gradlew testMigrate
       - name: Build with Gradle
         run: ./gradlew build
       - name: Publish artifact
@@ -80,4 +73,3 @@ jobs:
           CF_SPACE: ${{ secrets.CF_SPACE }}
           CF_USERNAME: ${{ secrets.CF_USERNAME }}
           CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
-          
