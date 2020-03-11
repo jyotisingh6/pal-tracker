@@ -22,12 +22,11 @@ public class PalTrackerApplication {
     //TimeEntryRepository  jdbcTimeEntryRepository(){
         //return new InMemoryTimeEntryRepository();
    // }
-    
-    @Bean
-	TimeEntryRepository timeEntryRepository (DataSource dataSource) {
-        JdbcTimeEntryRepository jdbcTimeEntryRepository = new JdbcTimeEntryRepository(dataSource);	// instantiate and configure TimeEntryRepository obj
-	return jdbcTimeEntryRepository;
-	}
+   @Bean
+    TimeEntryRepository  timeEntryRepository (DataSource dataSource) {
+        // instantiate and configure TimeEntryRepository obj
+        return new  JdbcTimeEntryRepository(dataSource);
+    }
 
     @Bean
     public ObjectMapper jsonObjectMapper() {

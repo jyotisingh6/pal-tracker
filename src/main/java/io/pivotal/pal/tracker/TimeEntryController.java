@@ -1,17 +1,18 @@
 package io.pivotal.pal.tracker;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import io.pivotal.pal.tracker.TimeEntry;
 
 import java.util.List;
-
+	
 @RestController
 // Sets the "root" for all TimeEntryController end-points
 @RequestMapping("/time-entries")
 public class TimeEntryController {
 
+    @Autowired
     private TimeEntryRepository timeEntriesRepo;
 
     public TimeEntryController(TimeEntryRepository timeEntriesRepo) {
