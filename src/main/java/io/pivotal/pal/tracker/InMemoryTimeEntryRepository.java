@@ -1,42 +1,58 @@
 package io.pivotal.pal.tracker;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
-import io.pivotal.pal.tracker.TimeEntry;
+import java.util.List;
 
-public class InMemoryTimeEntryRepository implements TimeEntryRepository{
+public   class InMemoryTimeEntryRepository implements TimeEntryRepository {
 
-    private HashMap<Long,TimeEntry> timeEntries = new HashMap<Long,TimeEntry>();
+    public InMemoryTimeEntryRepository()
+    {
+    }
+
+    protected final HashMap<Long, TimeEntry> table = new HashMap<>();
     private Long currentId = 1L;
-    @Override
-    public TimeEntry create(TimeEntry timeEntry){
-        Long id = currentId++;
-        TimeEntry newTimeEntry = new TimeEntry(id,timeEntry.getProjectId(),timeEntry.getUserId(),timeEntry.getDate(),timeEntry.getHours());
-        timeEntries.put(id,newTimeEntry);
-        return newTimeEntry;
+    public TimeEntry create(TimeEntry timeEntry)  {
+
+       // timeEntry.setId(getNextId());
+       // timeEntry.setId()+1L;
+        long id=currentId++;
+        timeEntry.setId(id);
+        table.put(id, timeEntry);
+        //System.out.println(table.get(timeEntry.getId()+1L) + " ----------------");
+        return table.get(timeEntry.getId());
     }
-    @Override
-    public TimeEntry find(Long id){
-        return timeEntries.get(id);
+
+
+    public TimeEntry find(Long id)  {
+        return table.get(id);
     }
-    @Override
-    public List<TimeEntry> list(){
-        return new ArrayList<>(timeEntries.values());
+
+
+    public List<TimeEntry> list()  {
+        return new ArrayList<>(table.values());
     }
-    @Override
-    public TimeEntry update(Long id,TimeEntry timeEntry){
-        //    TimeEntry updateEntry = new TimeEntry(id,timeEntry.getProjectId(),timeEntry.getUserId(),timeEntry.getDate(),timeEntry.getHours());
-        if(timeEntries.get(id) != null){
+
+    public TimeEntry update(Long id, TimeEntry timeEntry) {
+
+
+
+        TimeEntry updateEntry = new TimeEntry(id,timeEntry.getProjectId(),timeEntry.getUserId(),timeEntry.getDate(),timeEntry.getHours());
+        if(table.get(id) != null){
             timeEntry.setId(id);
-            timeEntries.replace(id,timeEntry);
+            table.replace(id,updateEntry);
             return timeEntry;
         }else{
             return null;
         }
     }
-    @Override
-    public void delete(Long id){
-        timeEntries.remove(id);
+
+
+    public void delete(Long id)  {
+
+        table.remove(id);
     }
+
+
 }
+

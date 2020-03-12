@@ -6,32 +6,35 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-	
+
 @RestController
-// Sets the "root" for all TimeEntryController end-points
 @RequestMapping("/time-entries")
 public class TimeEntryController {
 
     @Autowired
-    private TimeEntryRepository timeEntriesRepo;
+    private TimeEntryRepository timeEntryRepository;
 
-    public TimeEntryController(TimeEntryRepository timeEntriesRepo) {
-        this.timeEntriesRepo = timeEntriesRepo;
+    public TimeEntryController(TimeEntryRepository timeEntryRepository) {
+        this.timeEntryRepository = timeEntryRepository;
     }
 
-    // Create
+
+
     @PostMapping
     public ResponseEntity<TimeEntry> create(@RequestBody TimeEntry timeEntry) {
-        TimeEntry createdTimeEntry = timeEntriesRepo.create(timeEntry);
+        //System.out.println(this.getClass().getSimpleName() + " - Create new employee method is invoked.");
+       // return timeEntryRepository.create(timeEntry);
+        TimeEntry createdTimeEntry = timeEntryRepository.create(timeEntry);
 
         // Returning a ResponseEntity allows us to control the resulting HTTP status code
         return new ResponseEntity<>(createdTimeEntry, HttpStatus.CREATED);
     }
 
-    // Retrieve a single record
     @GetMapping("{id}")
-    public ResponseEntity<TimeEntry> read(@PathVariable Long id) {
-        TimeEntry timeEntry = timeEntriesRepo.find(id);
+    public ResponseEntity<TimeEntry> read(@PathVariable long id)  {
+        //System.out.println(this.getClass().getSimpleName() + " - Get employee details by id is invoked.");
+
+        TimeEntry timeEntry = timeEntryRepository.find(id);
         if (timeEntry != null) {
             return new ResponseEntity<>(timeEntry, HttpStatus.OK);
         } else {
@@ -39,16 +42,17 @@ public class TimeEntryController {
         }
     }
 
-    // Retrieve all records
     @GetMapping
     public ResponseEntity<List<TimeEntry>> list() {
-        return new ResponseEntity<>(timeEntriesRepo.list(), HttpStatus.OK);
+        //System.out.println(this.getClass().getSimpleName() + " - Get all employees service is invoked.");
+        return new ResponseEntity<>(timeEntryRepository.list(), HttpStatus.OK);
     }
 
-    // Update
     @PutMapping("{id}")
-    public ResponseEntity<TimeEntry> update(@PathVariable Long id, @RequestBody TimeEntry timeEntry) {
-        TimeEntry updatedTimeEntry = timeEntriesRepo.update(id, timeEntry);
+    public ResponseEntity<TimeEntry>  update( @PathVariable long id, @RequestBody TimeEntry updTimeEntry)  {
+        //System.out.println(this.getClass().getSimpleName() + " - Update employee details by id is invoked.");
+
+        TimeEntry updatedTimeEntry = timeEntryRepository.update(id, updTimeEntry);
         if (updatedTimeEntry != null) {
             return new ResponseEntity<>(updatedTimeEntry, HttpStatus.OK);
         } else {
@@ -56,12 +60,16 @@ public class TimeEntryController {
         }
     }
 
-    // Delete
     @DeleteMapping("{id}")
-    public ResponseEntity<TimeEntry> delete(@PathVariable Long id) {
-        timeEntriesRepo.delete(id);
+    public ResponseEntity<TimeEntry> delete(@PathVariable long id)  {
+        //System.out.println(this.getClass().getSimpleName() + " - Delete employee by id is invoked.");
+
+
+
+        timeEntryRepository.delete(id);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-}
 
+
+}

@@ -8,21 +8,19 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+
 import javax.sql.DataSource;
+
 
 @SpringBootApplication
 public class PalTrackerApplication {
+    //MysqlDataSource dataSource = new MysqlDataSource();
 
     public static void main(String[] args) {
         SpringApplication.run(PalTrackerApplication.class, args);
     }
 
-    //@Bean
-
-    //TimeEntryRepository  jdbcTimeEntryRepository(){
-        //return new InMemoryTimeEntryRepository();
-   // }
-   @Bean
+    @Bean
     TimeEntryRepository  timeEntryRepository (DataSource dataSource) {
         // instantiate and configure TimeEntryRepository obj
         return new  JdbcTimeEntryRepository(dataSource);
@@ -36,5 +34,4 @@ public class PalTrackerApplication {
                 .modules(new JavaTimeModule())
                 .build();
     }
-
 }
