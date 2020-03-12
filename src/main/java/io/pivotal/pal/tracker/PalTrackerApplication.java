@@ -21,10 +21,10 @@ public class PalTrackerApplication {
     }
 
     @Bean
-    TimeEntryRepository  timeEntryRepository (DataSource dataSource) {
-        // instantiate and configure TimeEntryRepository obj
-        return new  JdbcTimeEntryRepository();
-    }
+       TimeEntryRepository timeEntryRepository (DataSource dataSource) {
+	// instantiate and configure TimeEntryRepository obj
+ return new JdbcTimeEntryRepository(dataSource);
+ }
 
     @Bean
     public ObjectMapper jsonObjectMapper() {
@@ -34,4 +34,4 @@ public class PalTrackerApplication {
                 .modules(new JavaTimeModule())
                 .build();
     }
-}dataSource
+}
